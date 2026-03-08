@@ -1,6 +1,6 @@
 {
-  "version": "49.0",
+  "version": "Alpha 0.1",
   "author": "LUA MODS",
   "changelog": "Исправлены кракозябры в чате, добавлена вкладка настроек.",
-  "download_url": "https://raw.githubusercontent.com/USER/REPO/main/Myscript.lua"
+  "download_url": "https://github.com/luamods/lua_scripts/blob/main/binder/binder.lua"
 }
