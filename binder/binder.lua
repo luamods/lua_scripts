@@ -4,12 +4,12 @@ local encoding = require 'encoding'
 encoding.default = 'CP1251'
 local u8 = encoding.UTF8
 
--- Конфигурация
+-- ГЉГ®Г­ГґГЁГЈГіГ°Г Г¶ГЁГї
 local info = {
     name = "LUA MODS | Professional Binder",
-    version = "48.0",
+    version = "Aplha 0.1",
     author = "LUA MODS",
-    -- Замени на свою прямую ссылку на GitHub (RAW)
+    -- Г‡Г Г¬ГҐГ­ГЁ Г­Г  Г±ГўГ®Гѕ ГЇГ°ГїГ¬ГіГѕ Г±Г±Г»Г«ГЄГі Г­Г  GitHub (RAW)
     updateUrl = "https://raw.githubusercontent.com/luamods/lua_scripts/refs/heads/main/binder/version.json", 
     tg = "https://t.me/zejksq_mods"
 }
@@ -19,17 +19,17 @@ local isReady = false
 local tab = 1
 local binds = {}
 local filePath = getWorkingDirectory() .. "\\config\\lua_mods_binder.ini"
-local updateStatus = u8"Нажмите для проверки"
+local updateStatus = u8"ГЌГ Г¦Г¬ГЁГІГҐ Г¤Г«Гї ГЇГ°Г®ГўГҐГ°ГЄГЁ"
 
--- Цвета (float массивы для mimgui)
+-- Г–ГўГҐГІГ  (float Г¬Г Г±Г±ГЁГўГ» Г¤Г«Гї mimgui)
 local bgColor = imgui.new.float[4](0.1, 0.1, 0.1, 0.9)
 local btnColor = imgui.new.float[4](0.2, 0.2, 0.2, 1.0)
 
--- Буферы ввода
+-- ГЃГіГґГҐГ°Г» ГўГўГ®Г¤Г 
 local addCmd = imgui.new.char[64]("")
 local addTxt = imgui.new.char[2048]("") 
 
--- Безопасная конвертация цвета
+-- ГЃГҐГ§Г®ГЇГ Г±Г­Г Гї ГЄГ®Г­ГўГҐГ°ГІГ Г¶ГЁГї Г¶ГўГҐГІГ 
 local function HSVtoRGB(h, s, v)
     local r, g, b
     local i = math.floor(h * 6); local f = h * 6 - i
@@ -47,7 +47,7 @@ end
 
 local rgbTick = 0
 
--- Работа с файлами
+-- ГђГ ГЎГ®ГІГ  Г± ГґГ Г©Г«Г Г¬ГЁ
 function saveAll()
     local f = io.open(filePath, "w")
     if f then
@@ -83,9 +83,9 @@ function loadAll()
     end
 end
 
--- Проверка обновлений
+-- ГЏГ°Г®ГўГҐГ°ГЄГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ©
 function checkUpdates()
-    updateStatus = u8"Проверка..."
+    updateStatus = u8"ГЏГ°Г®ГўГҐГ°ГЄГ ..."
     lua_thread.create(function()
         local tempFile = os.getenv("TEMP") .. "\\lua_mods_ver.txt"
         downloadUrlToFile(info.updateUrl, tempFile, function(id, status, p1, p2)
@@ -94,15 +94,15 @@ function checkUpdates()
                 if f then
                     local content = f:read("*a"):gsub("%s+", "")
                     f:close(); os.remove(tempFile)
-                    if content == info.version then updateStatus = u8"У вас последняя версия"
-                    else updateStatus = u8"Найдено обновление: v" .. u8(content) end
+                    if content == info.version then updateStatus = u8"Г“ ГўГ Г± ГЇГ®Г±Г«ГҐГ¤Г­ГїГї ГўГҐГ°Г±ГЁГї"
+                    else updateStatus = u8"ГЌГ Г©Г¤ГҐГ­Г® Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ: v" .. u8(content) end
                 end
-            elseif status == -1 then updateStatus = u8"Ошибка соединения" end
+            elseif status == -1 then updateStatus = u8"ГЋГёГЁГЎГЄГ  Г±Г®ГҐГ¤ГЁГ­ГҐГ­ГЁГї" end
         end)
     end)
 end
 
--- Регистрация команд
+-- ГђГҐГЈГЁГ±ГІГ°Г Г¶ГЁГї ГЄГ®Г¬Г Г­Г¤
 function applyBinds()
     for _, b in ipairs(binds) do
         local command = b.cmd:gsub("^/", "")
@@ -111,7 +111,7 @@ function applyBinds()
             lua_thread.create(function()
                 for line in b.txt:gmatch("[^\r\n]+") do
                     if #line > 0 then
-                        -- ФИКС КРАКОЗЯБР: Перевод из UTF8 в CP1251
+                        -- Г”Г€ГЉГ‘ ГЉГђГЂГЉГЋГ‡ГџГЃГђ: ГЏГҐГ°ГҐГўГ®Г¤ ГЁГ§ UTF8 Гў CP1251
                         sampSendChat(u8:decode(line))
                         wait(1150)
                     end
@@ -129,7 +129,7 @@ imgui.OnFrame(function() return isReady and winState[0] end, function()
     local style = imgui.GetStyle()
     local function f(n) return tonumber(n) or 0.0 end
     
-    -- Применение стилей (Фикс ImVec4)
+    -- ГЏГ°ГЁГ¬ГҐГ­ГҐГ­ГЁГҐ Г±ГІГЁГ«ГҐГ© (Г”ГЁГЄГ± ImVec4)
     style.Colors[imgui.Col.Border] = imgui.ImVec4(f(r), f(g), f(b), 1.0)
     style.Colors[imgui.Col.WindowBg] = imgui.ImVec4(f(bgColor[0]), f(bgColor[1]), f(bgColor[2]), f(bgColor[3]))
     style.Colors[imgui.Col.Button] = imgui.ImVec4(f(btnColor[0]), f(btnColor[1]), f(btnColor[2]), f(btnColor[3]))
@@ -141,16 +141,16 @@ imgui.OnFrame(function() return isReady and winState[0] end, function()
     if imgui.Begin(u8(info.name), winState, imgui.WindowFlags.NoCollapse) then
         
         local btnW = (imgui.GetContentRegionAvail().x - 15) / 4
-        if imgui.Button(u8"БИНДЫ", imgui.ImVec2(btnW, 35)) then tab = 1 end
-        imgui.SameLine(); if imgui.Button(u8"НАСТРОЙКИ", imgui.ImVec2(btnW, 35)) then tab = 2 end
-        imgui.SameLine(); if imgui.Button(u8"ОБНОВЛЕНИЯ", imgui.ImVec2(btnW, 35)) then tab = 3 end
-        imgui.SameLine(); if imgui.Button(u8"ИНФО", imgui.ImVec2(btnW, 35)) then tab = 4 end
+        if imgui.Button(u8"ГЃГ€ГЌГ„Г›", imgui.ImVec2(btnW, 35)) then tab = 1 end
+        imgui.SameLine(); if imgui.Button(u8"ГЌГЂГ‘Г’ГђГЋГ‰ГЉГ€", imgui.ImVec2(btnW, 35)) then tab = 2 end
+        imgui.SameLine(); if imgui.Button(u8"ГЋГЃГЌГЋГ‚Г‹Г…ГЌГ€Гџ", imgui.ImVec2(btnW, 35)) then tab = 3 end
+        imgui.SameLine(); if imgui.Button(u8"Г€ГЌГ”ГЋ", imgui.ImVec2(btnW, 35)) then tab = 4 end
         imgui.Separator()
 
         if tab == 1 then
-            imgui.InputText(u8"Команда", addCmd, 64)
-            imgui.InputTextMultiline(u8"Текст", addTxt, 2048, imgui.ImVec2(-1, 80))
-            if imgui.Button(u8"СОХРАНИТЬ", imgui.ImVec2(-1, 30)) then
+            imgui.InputText(u8"ГЉГ®Г¬Г Г­Г¤Г ", addCmd, 64)
+            imgui.InputTextMultiline(u8"Г’ГҐГЄГ±ГІ", addTxt, 2048, imgui.ImVec2(-1, 80))
+            if imgui.Button(u8"Г‘ГЋГ•ГђГЂГЌГ€Г’Гњ", imgui.ImVec2(-1, 30)) then
                 local c, t = ffi.string(addCmd), ffi.string(addTxt)
                 if #c > 0 and #t > 0 then
                     table.insert(binds, {cmd = c, txt = t}); saveAll(); applyBinds()
@@ -168,19 +168,19 @@ imgui.OnFrame(function() return isReady and winState[0] end, function()
             imgui.EndChild()
         
         elseif tab == 2 then
-            imgui.Text(u8"Цвет фона:")
-            if imgui.ColorEdit4(u8"Фон Окна", bgColor) then saveAll() end
-            imgui.Text(u8"Цвет кнопок:")
-            if imgui.ColorEdit4(u8"Кнопки", btnColor) then saveAll() end
+            imgui.Text(u8"Г–ГўГҐГІ ГґГ®Г­Г :")
+            if imgui.ColorEdit4(u8"Г”Г®Г­ ГЋГЄГ­Г ", bgColor) then saveAll() end
+            imgui.Text(u8"Г–ГўГҐГІ ГЄГ­Г®ГЇГ®ГЄ:")
+            if imgui.ColorEdit4(u8"ГЉГ­Г®ГЇГЄГЁ", btnColor) then saveAll() end
 
         elseif tab == 3 then
-            imgui.Text(u8"Версия: " .. info.version)
-            imgui.Text(u8"Статус: " .. updateStatus)
-            if imgui.Button(u8"ПРОВЕРИТЬ", imgui.ImVec2(-1, 40)) then checkUpdates() end
+            imgui.Text(u8"Г‚ГҐГ°Г±ГЁГї: " .. info.version)
+            imgui.Text(u8"Г‘ГІГ ГІГіГ±: " .. updateStatus)
+            if imgui.Button(u8"ГЏГђГЋГ‚Г…ГђГ€Г’Гњ", imgui.ImVec2(-1, 40)) then checkUpdates() end
 
         elseif tab == 4 then
-            imgui.Text(u8"Автор: " .. info.author)
-            imgui.Text(u8"Версия: " .. info.version)
+            imgui.Text(u8"ГЂГўГІГ®Г°: " .. info.author)
+            imgui.Text(u8"Г‚ГҐГ°Г±ГЁГї: " .. info.version)
             if imgui.Button("Telegram", imgui.ImVec2(-1, 30)) then os.execute("explorer " .. info.tg) end
         end
         imgui.End()
@@ -195,7 +195,8 @@ function main()
     isReady = true
     while true do
         wait(0)
-        -- Открытие на клавишу X (88)
+        -- ГЋГІГЄГ°Г»ГІГЁГҐ Г­Г  ГЄГ«Г ГўГЁГёГі X (88)
         if isKeyJustPressed(88) and not sampIsChatInputActive() then winState[0] = not winState[0] end
     end
+
 end
