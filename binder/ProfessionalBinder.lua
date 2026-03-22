@@ -6,10 +6,10 @@ local u8 = encoding.UTF8
 local requests = require 'requests'
 
 -- ==========================================================
--- КОНФИГ И ВЕРСИЯ
+-- ГЉГЋГЌГ”Г€Гѓ Г€ Г‚Г…ГђГ‘Г€Гџ
 -- ==========================================================
 local script_version = "6.2"
-local update_url = "https://github.com/luamods/lua_scripts/raw/refs/heads/main/binder/version.json" -- Ссылка на файл с версией
+local update_url = "https://github.com/luamods/lua_scripts/raw/refs/heads/main/binder/version.json" -- Г‘Г±Г»Г«ГЄГ  Г­Г  ГґГ Г©Г« Г± ГўГҐГ°Г±ГЁГҐГ©
 local configPath = getWorkingDirectory() .. "\\config\\ProfessionalBinder.txt"
 
 local renderWindow = imgui.new.bool(false)
@@ -18,7 +18,7 @@ local animAlpha = 0.0
 local activeTab, targetTab, tabAlpha = 1, 1, 1.0
 local binds = {}
 local stopBinds = false 
-local updateStatus = u8"Обновления не проверялись"
+local updateStatus = u8"ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГї Г­ГҐ ГЇГ°Г®ГўГҐГ°ГїГ«ГЁГ±Гј"
 
 local buf = {
     name = imgui.new.char[128](""),
@@ -29,27 +29,27 @@ local buf = {
 }
 
 -- ==========================================================
--- СИСТЕМА ОБНОВЛЕНИЙ
+-- Г‘Г€Г‘Г’Г…ГЊГЂ ГЋГЃГЌГЋГ‚Г‹Г…ГЌГ€Г‰
 -- ==========================================================
 function checkUpdates()
-    updateStatus = u8"Проверка..."
+    updateStatus = u8"ГЏГ°Г®ГўГҐГ°ГЄГ ..."
     lua_thread.create(function()
         local status, response = pcall(requests.get, update_url)
         if status and response.status_code == 200 then
             local new_ver = response.text:gsub("%s+", "")
             if new_ver ~= script_version then
-                updateStatus = u8"Доступна новая версия: " .. new_ver
+                updateStatus = u8"Г„Г®Г±ГІГіГЇГ­Г  Г­Г®ГўГ Гї ГўГҐГ°Г±ГЁГї: " .. new_ver
             else
-                updateStatus = u8"У вас последняя версия"
+                updateStatus = u8"Г“ ГўГ Г± ГЇГ®Г±Г«ГҐГ¤Г­ГїГї ГўГҐГ°Г±ГЁГї"
             end
         else
-            updateStatus = u8"Ошибка подключения к серверу"
+            updateStatus = u8"ГЋГёГЁГЎГЄГ  ГЇГ®Г¤ГЄГ«ГѕГ·ГҐГ­ГЁГї ГЄ Г±ГҐГ°ГўГҐГ°Гі"
         end
     end)
 end
 
 -- ==========================================================
--- ЛОГИКА БИНДЕРА
+-- Г‹ГЋГѓГ€ГЉГЂ ГЃГ€ГЌГ„Г…ГђГЂ
 -- ==========================================================
 function lerp(a, b, t) return a + (b - a) * t end
 
@@ -66,7 +66,7 @@ function sendToSampChat(text, delayBetween)
                 wait(tonumber(delayBetween)) 
             end
         end
-        if stopBinds then sampAddChatMessage("{FF0000}[Binder] {FFFFFF}Остановлено!", -1) end
+        if stopBinds then sampAddChatMessage("{FF0000}[Binder] {FFFFFF}ГЋГ±ГІГ Г­Г®ГўГ«ГҐГ­Г®!", -1) end
     end)
 end
 
@@ -109,7 +109,7 @@ function loadBinds()
 end
 
 -- ==========================================================
--- ИНТЕРФЕЙС
+-- Г€ГЌГ’Г…ГђГ”Г…Г‰Г‘
 -- ==========================================================
 imgui.OnInitialize(function()
     loadBinds()
@@ -146,14 +146,14 @@ imgui.OnFrame(function() return renderWindow[0] end, function()
 
         imgui.SetCursorPos(imgui.ImVec2(12, 70))
         imgui.BeginChild("Navbar", imgui.ImVec2(185, -12), true)
-            if imgui.Selectable(u8" > Главная", targetTab == 1, 0, imgui.ImVec2(0, 40)) then targetTab = 1 end
-            if imgui.Selectable(u8" > Мои бинды", targetTab == 2, 0, imgui.ImVec2(0, 40)) then targetTab = 2 end
-            if imgui.Selectable(u8" > Создать", targetTab == 3, 0, imgui.ImVec2(0, 40)) then targetTab = 3 end
-            if imgui.Selectable(u8" > Информация", targetTab == 4, 0, imgui.ImVec2(0, 40)) then targetTab = 4 end
+            if imgui.Selectable(u8" > ГѓГ«Г ГўГ­Г Гї", targetTab == 1, 0, imgui.ImVec2(0, 40)) then targetTab = 1 end
+            if imgui.Selectable(u8" > ГЊГ®ГЁ ГЎГЁГ­Г¤Г»", targetTab == 2, 0, imgui.ImVec2(0, 40)) then targetTab = 2 end
+            if imgui.Selectable(u8" > Г‘Г®Г§Г¤Г ГІГј", targetTab == 3, 0, imgui.ImVec2(0, 40)) then targetTab = 3 end
+            if imgui.Selectable(u8" > Г€Г­ГґГ®Г°Г¬Г Г¶ГЁГї", targetTab == 4, 0, imgui.ImVec2(0, 40)) then targetTab = 4 end
             
             imgui.SetCursorPosY(imgui.GetWindowHeight() - 60)
             imgui.PushStyleColor(imgui.Col.Button, imgui.ImVec4(0.6, 0.1, 0.1, 1.0))
-            if imgui.Button(u8"СТОП (F9)", imgui.ImVec2(-1, 40)) then stopBinds = true end
+            if imgui.Button(u8"Г‘Г’ГЋГЏ (F9)", imgui.ImVec2(-1, 40)) then stopBinds = true end
             imgui.PopStyleColor()
         imgui.EndChild()
 
@@ -162,40 +162,40 @@ imgui.OnFrame(function() return renderWindow[0] end, function()
         imgui.BeginChild("MainArea", imgui.ImVec2(-12, -12), true)
             
             if activeTab == 1 then
-                imgui.Text(u8"Добро пожаловать в Professional Binder!"); imgui.Separator()
-                imgui.TextWrapped(u8"Используйте левое меню для навигации.\nF9 — экстренная остановка всех биндов.")
+                imgui.Text(u8"Г„Г®ГЎГ°Г® ГЇГ®Г¦Г Г«Г®ГўГ ГІГј Гў Professional Binder!"); imgui.Separator()
+                imgui.TextWrapped(u8"Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ Г«ГҐГўГ®ГҐ Г¬ГҐГ­Гѕ Г¤Г«Гї Г­Г ГўГЁГЈГ Г¶ГЁГЁ.\nF9 вЂ” ГЅГЄГ±ГІГ°ГҐГ­Г­Г Гї Г®Г±ГІГ Г­Г®ГўГЄГ  ГўГ±ГҐГµ ГЎГЁГ­Г¤Г®Гў.")
             
             elseif activeTab == 2 then
                 for i, b in ipairs(binds) do
                     imgui.BeginChild("b"..i, imgui.ImVec2(-1, 110), true)
                         imgui.Text(u8(b.name) .. " [/" .. b.cmd .. "]")
-                        imgui.TextDisabled(u8"Задержка: " .. string.format("%.1f", b.delayBetween/1000) .. u8" сек.")
+                        imgui.TextDisabled(u8"Г‡Г Г¤ГҐГ°Г¦ГЄГ : " .. string.format("%.1f", b.delayBetween/1000) .. u8" Г±ГҐГЄ.")
                         imgui.SetCursorPos(imgui.ImVec2(imgui.GetWindowWidth() - 380, 55))
-                        if imgui.Button(u8"Запустить##"..i, imgui.ImVec2(85, 30)) then sendToSampChat(b.text, b.delayBetween) end
+                        if imgui.Button(u8"Г‡Г ГЇГіГ±ГІГЁГІГј##"..i, imgui.ImVec2(85, 30)) then sendToSampChat(b.text, b.delayBetween) end
                         imgui.SameLine()
                         imgui.PushStyleColor(imgui.Col.Button, imgui.ImVec4(0.6, 0.1, 0.1, 1.0))
-                        if imgui.Button(u8"СТОП##"..i, imgui.ImVec2(85, 30)) then stopBinds = true end
+                        if imgui.Button(u8"Г‘Г’ГЋГЏ##"..i, imgui.ImVec2(85, 30)) then stopBinds = true end
                         imgui.PopStyleColor()
                         imgui.SameLine()
-                        if imgui.Button(u8"Изменить##"..i, imgui.ImVec2(90, 30)) then
+                        if imgui.Button(u8"Г€Г§Г¬ГҐГ­ГЁГІГј##"..i, imgui.ImVec2(90, 30)) then
                             ffi.copy(buf.name, b.name); ffi.copy(buf.cmd, b.cmd); ffi.copy(buf.text, b.text)
                             buf.delayStart[0] = b.delayStart/1000; buf.delayBetween[0] = b.delayBetween/1000
                             table.remove(binds, i); targetTab = 3
                         end
                         imgui.SameLine()
-                        if imgui.Button(u8"Удалить##"..i, imgui.ImVec2(85, 30)) then table.remove(binds, i); saveBinds() end
+                        if imgui.Button(u8"Г“Г¤Г Г«ГЁГІГј##"..i, imgui.ImVec2(85, 30)) then table.remove(binds, i); saveBinds() end
                     imgui.EndChild(); imgui.Spacing()
                 end
 
             elseif activeTab == 3 then
-                imgui.Text(u8"Редактор"); imgui.Separator()
-                imgui.Text(u8"Название:"); imgui.InputText("##n", buf.name, 128)
-                imgui.Text(u8"Команда:"); imgui.InputText("##c", buf.cmd, 64)
-                imgui.Text(u8"Задержка (сек):")
+                imgui.Text(u8"ГђГҐГ¤Г ГЄГІГ®Г°"); imgui.Separator()
+                imgui.Text(u8"ГЌГ Г§ГўГ Г­ГЁГҐ:"); imgui.InputText("##n", buf.name, 128)
+                imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г :"); imgui.InputText("##c", buf.cmd, 64)
+                imgui.Text(u8"Г‡Г Г¤ГҐГ°Г¦ГЄГ  (Г±ГҐГЄ):")
                 imgui.SliderFloat("##db", buf.delayBetween, 1.0, 10.0, "%.1f") 
-                imgui.Text(u8"Текст:")
+                imgui.Text(u8"Г’ГҐГЄГ±ГІ:")
                 imgui.InputTextMultiline("##t", buf.text, 4096, imgui.ImVec2(-1, 150))
-                if imgui.Button(u8"СОХРАНИТЬ", imgui.ImVec2(-1, 45)) then
+                if imgui.Button(u8"Г‘ГЋГ•ГђГЂГЌГ€Г’Гњ", imgui.ImVec2(-1, 45)) then
                     local c, t, n = ffi.string(buf.cmd), ffi.string(buf.text), ffi.string(buf.name)
                     if #c > 0 and #t > 0 then
                         local newB = {cmd = c, text = t, name = n, delayStart = 1000, delayBetween = math.floor(buf.delayBetween[0]*1000)}
@@ -204,10 +204,10 @@ imgui.OnFrame(function() return renderWindow[0] end, function()
                 end
 
             elseif activeTab == 4 then
-                imgui.Text(u8"Информация"); imgui.Separator()
-                imgui.Text(u8"Версия скрипта: " .. script_version)
-                imgui.Text(u8"Статус: " .. updateStatus)
-                if imgui.Button(u8"Проверить обновления", imgui.ImVec2(-1, 40)) then checkUpdates() end
+                imgui.Text(u8"Г€Г­ГґГ®Г°Г¬Г Г¶ГЁГї"); imgui.Separator()
+                imgui.Text(u8"Г‚ГҐГ°Г±ГЁГї Г±ГЄГ°ГЁГЇГІГ : " .. script_version)
+                imgui.Text(u8"Г‘ГІГ ГІГіГ±: " .. updateStatus)
+                if imgui.Button(u8"ГЏГ°Г®ГўГҐГ°ГЁГІГј Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї", imgui.ImVec2(-1, 40)) then checkUpdates() end
                 imgui.Spacing(); imgui.Separator(); imgui.Text("(c) LUA MODS 2026")
             end
         imgui.EndChild()
