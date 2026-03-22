@@ -1,0 +1,5 @@
+{
+  "version": "6.2",
+  "url": "https://raw.githubusercontent.com/твой_профиль/репозиторий/main/ProfessionalBinder.lua",
+  "changelog": "Добавлена система обновлений через JSON и исправлены баги с кодировкой."
+}
