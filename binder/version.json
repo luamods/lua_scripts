@@ -1,5 +1,5 @@
 {
   "version": "6.2",
-  "url": "https://raw.githubusercontent.com/С‚РІРѕР№_РїСЂРѕС„РёР»СЊ/СЂРµРїРѕР·РёС‚РѕСЂРёР№/main/ProfessionalBinder.lua",
-  "changelog": "Р”РѕР±Р°РІР»РµРЅР° СЃРёСЃС‚РµРјР° РѕР±РЅРѕРІР»РµРЅРёР№ С‡РµСЂРµР· JSON Рё РёСЃРїСЂР°РІР»РµРЅС‹ Р±Р°РіРё СЃ РєРѕРґРёСЂРѕРІРєРѕР№."
+  "url": "https://raw.githubusercontent.com/твой_профиль/репозиторий/main/ProfessionalBinder.lua",
+  "changelog": "Добавлена система обновлений через JSON и исправлены баги с кодировкой."
 }
